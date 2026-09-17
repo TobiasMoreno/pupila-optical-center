@@ -25,7 +25,7 @@ export const products: Product[] = [
     description:
       "Una silueta serena de líneas redondeadas y presencia liviana. Diseñado para acompañar todos los días sin perder carácter.",
     images: imageSet("av101"),
-    spin360: { enabled: false, frames: generate360Frames("/products/av101/360", 36) },
+    spin360: { enabled: true, frames: generate360Frames("/products/av101/360", 36) },
     available: true,
     featured: true,
   },
