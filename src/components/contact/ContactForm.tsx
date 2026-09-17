@@ -1,16 +1,19 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, LoaderCircle, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, LoaderCircle, Mail, MessageCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { products } from "@/data/products";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 
 type Status = "idle" | "loading" | "success" | "error";
-const contactProvider = process.env.NEXT_PUBLIC_CONTACT_PROVIDER ?? "whatsapp";
+type DeliveryMethod = "email" | "whatsapp";
+
+const useNetlifyForms = process.env.NEXT_PUBLIC_CONTACT_PROVIDER === "netlify";
 const formspreeFormId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("email");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -21,9 +24,12 @@ export function ContactForm() {
     }
 
     setStatus("loading");
+    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+    const selectedMethod: DeliveryMethod = submitter?.value === "whatsapp" ? "whatsapp" : "email";
+    setDeliveryMethod(selectedMethod);
     const formData = new FormData(form);
 
-    if (contactProvider === "whatsapp") {
+    if (selectedMethod === "whatsapp") {
       const name = String(formData.get("nombre") ?? "");
       const email = String(formData.get("email") ?? "");
       const phone = String(formData.get("telefono") ?? "");
@@ -44,12 +50,7 @@ export function ContactForm() {
       return;
     }
 
-    if (contactProvider === "formspree") {
-      if (!formspreeFormId) {
-        setStatus("error");
-        return;
-      }
-
+    if (formspreeFormId) {
       try {
         const response = await fetch(`https://formspree.io/f/${encodeURIComponent(formspreeFormId)}`, {
           method: "POST",
@@ -62,6 +63,11 @@ export function ContactForm() {
       } catch {
         setStatus("error");
       }
+      return;
+    }
+
+    if (!useNetlifyForms) {
+      setStatus("error");
       return;
     }
 
@@ -93,11 +99,21 @@ export function ContactForm() {
         <label className="text-sm font-semibold sm:col-span-2">Mensaje <span className="text-[var(--plum)]">*</span><textarea className={`${fieldClass} min-h-36 resize-y py-3`} name="mensaje" required minLength={10} placeholder="Contanos cómo podemos ayudarte…" /></label>
       </div>
 
-      <button type="submit" disabled={status === "loading"} className="mt-6 flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[var(--plum)] px-6 text-sm font-semibold text-white transition hover:bg-[var(--plum-deep)] disabled:opacity-60 sm:w-auto">
-        {status === "loading" ? <><LoaderCircle className="h-4 w-4 animate-spin" /> Enviando…</> : <><Send className="h-4 w-4" /> Enviar consulta</>}
-      </button>
+      <fieldset className="mt-6">
+        <legend className="mb-3 text-sm font-semibold">¿Cómo querés enviar tu consulta?</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <button name="channel" value="email" type="submit" disabled={status === "loading"} className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[var(--plum)] px-5 text-sm font-semibold text-white transition hover:bg-[var(--plum-deep)] disabled:opacity-60">
+            {status === "loading" && deliveryMethod === "email" ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+            {status === "loading" && deliveryMethod === "email" ? "Enviando…" : "Enviar por email"}
+          </button>
+          <button name="channel" value="whatsapp" type="submit" disabled={status === "loading"} className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[#236b4b] px-5 text-sm font-semibold text-white transition hover:bg-[#18583c] disabled:opacity-60">
+            {status === "loading" && deliveryMethod === "whatsapp" ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <MessageCircle className="h-4 w-4" />}
+            {status === "loading" && deliveryMethod === "whatsapp" ? "Preparando…" : "Enviar por WhatsApp"}
+          </button>
+        </div>
+      </fieldset>
 
-      {status === "success" && <div className="mt-5 flex items-start gap-3 rounded-xl bg-[#e7f2ec] p-4 text-sm text-[#205b40]" role="status"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /><p><strong>{contactProvider === "whatsapp" ? "Abrimos tu consulta en WhatsApp." : "¡Recibimos tu consulta!"}</strong><br />{contactProvider === "whatsapp" ? "Revisá el mensaje y tocá enviar para comunicarte con nosotros." : "Te responderemos a la brevedad."}</p></div>}
+      {status === "success" && <div className="mt-5 flex items-start gap-3 rounded-xl bg-[#e7f2ec] p-4 text-sm text-[#205b40]" role="status"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /><p><strong>{deliveryMethod === "whatsapp" ? "Abrimos tu consulta en WhatsApp." : "¡Recibimos tu consulta por email!"}</strong><br />{deliveryMethod === "whatsapp" ? "Revisá el mensaje y tocá enviar para comunicarte con nosotros." : "Te responderemos a la brevedad."}</p></div>}
       {status === "error" && <div className="mt-5 flex items-start gap-3 rounded-xl bg-[#f8e8e7] p-4 text-sm text-[#872f29]" role="alert"><AlertCircle className="mt-0.5 h-5 w-5 shrink-0" /><p><strong>No pudimos enviarla.</strong><br />Intentá nuevamente o escribinos por WhatsApp.</p></div>}
     </form>
   );

@@ -25,13 +25,12 @@ Copiá `.env.example` como `.env.local` y usá el número en formato internacion
 
 ```env
 NEXT_PUBLIC_WHATSAPP_NUMBER=5493518649121
-NEXT_PUBLIC_CONTACT_PROVIDER=formspree
 NEXT_PUBLIC_FORMSPREE_FORM_ID=xxxxxxxx
 ```
 
 Todos los enlaces se generan en `src/lib/whatsapp.ts`. Los mensajes de producto incluyen automáticamente marca y modelo.
 
-`NEXT_PUBLIC_CONTACT_PROVIDER=formspree` envía el formulario por email usando Formspree. `NEXT_PUBLIC_FORMSPREE_FORM_ID` es el identificador público que aparece en el endpoint del formulario. También se puede usar `whatsapp` para preparar la consulta en WhatsApp o `netlify` para Netlify Forms.
+`NEXT_PUBLIC_FORMSPREE_FORM_ID` es el identificador público que aparece en el endpoint del formulario. El visitante puede elegir entre enviar por email mediante Formspree o preparar la misma consulta en WhatsApp. Para un deploy en Netlify sin Formspree, se puede configurar además `NEXT_PUBLIC_CONTACT_PROVIDER=netlify`.
 
 ## Cambiar la información de la óptica
 
