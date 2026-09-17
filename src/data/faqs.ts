@@ -60,7 +60,7 @@ export const faqs: FAQ[] = [
   {
     id: "horarios",
     question: "¿Cuáles son los horarios?",
-    answer: "Atendemos de lunes a viernes de 9:00 a 18:00 y los sábados de 9:00 a 13:00.",
+    answer: "Atendemos de lunes a viernes de 9:00 a 13:00 y de 17:00 a 20:00. Los sábados, de 9:00 a 13:00.",
   },
   {
     id: "asesor",
