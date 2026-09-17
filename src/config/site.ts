@@ -3,8 +3,9 @@ export const siteConfig = {
   shortName: "Pupila",
   description:
     "Anteojos de receta y de sol seleccionados con criterio, asesoramiento cercano y una mirada puesta en vos.",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493516335209",
-  email: "pupilacentrooptico@gmail.com",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493518649121",
+  whatsappLabel: "+54 9 3518 64-9121",
+  email: "Nahuelzallocco@gmail.com",
   instagram: "https://instagram.com/pupilacentrooptico",
   instagramLabel: "@pupilacentrooptico",
   address: "Córdoba, Argentina",

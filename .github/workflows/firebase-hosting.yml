@@ -41,7 +41,7 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          NEXT_PUBLIC_WHATSAPP_NUMBER: "5493516335209"
+          NEXT_PUBLIC_WHATSAPP_NUMBER: "5493518649121"
           NEXT_PUBLIC_FORMSPREE_FORM_ID: ${{ vars.NEXT_PUBLIC_FORMSPREE_FORM_ID }}
 
       - name: Deploy to Firebase Hosting

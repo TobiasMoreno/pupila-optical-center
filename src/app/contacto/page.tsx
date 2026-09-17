@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Clock3, Mail, MapPin } from "lucide-react";
+import { Clock3, Mail, MapPin, MessageCircle } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsAppButton } from "@/components/contact/WhatsAppButton";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
+import { createWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -20,6 +21,7 @@ export default function ContactPage() {
           <p className="mt-6 max-w-md text-base leading-7 text-[var(--ink-soft)]">Escribinos por el medio que prefieras. Te ayudamos con modelos, recetas, cristales y disponibilidad.</p>
           <div className="mt-9 space-y-5 border-y border-[var(--line)] py-7 text-sm">
             <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-3 hover:text-[var(--plum)]"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-white"><Mail className="h-4 w-4" /></span>{siteConfig.email}</a>
+            <a href={createWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[var(--plum)]"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-white"><MessageCircle className="h-4 w-4" /></span>{siteConfig.whatsappLabel}</a>
             <a href={siteConfig.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[var(--plum)]"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-white"><MapPin className="h-4 w-4" /></span>{siteConfig.address}</a>
             <div className="flex items-start gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white"><Clock3 className="h-4 w-4" /></span><span className="space-y-1 pt-1">{siteConfig.openingHours.map((hours) => <span className="block" key={hours}>{hours}</span>)}</span></div>
           </div>

@@ -24,7 +24,7 @@ npm run build
 Copiá `.env.example` como `.env.local` y usá el número en formato internacional, sólo con dígitos:
 
 ```env
-NEXT_PUBLIC_WHATSAPP_NUMBER=5493516335209
+NEXT_PUBLIC_WHATSAPP_NUMBER=5493518649121
 NEXT_PUBLIC_FORMSPREE_FORM_ID=xxxxxxxx
 ```
 
@@ -151,7 +151,7 @@ Creá también una variable de repositorio en **GitHub → Settings → Secrets 
 NEXT_PUBLIC_FORMSPREE_FORM_ID
 ```
 
-Su valor es únicamente el ID del formulario de Formspree, por ejemplo `xpwzgabc`, no el endpoint completo. En el panel de Formspree configurá `pupilacentrooptico@gmail.com` como destinatario y verificá esa dirección.
+Su valor es únicamente el ID del formulario de Formspree, por ejemplo `xpwzgabc`, no el endpoint completo. En el panel de Formspree configurá `Nahuelzallocco@gmail.com` como destinatario y verificá esa dirección.
 
 ## Formulario y Netlify Forms
 
