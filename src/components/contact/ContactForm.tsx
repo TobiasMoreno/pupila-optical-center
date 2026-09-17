@@ -7,6 +7,7 @@ import { createWhatsAppLink } from "@/lib/whatsapp";
 
 type Status = "idle" | "loading" | "success" | "error";
 const contactProvider = process.env.NEXT_PUBLIC_CONTACT_PROVIDER ?? "whatsapp";
+const formspreeFormId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -40,6 +41,27 @@ export function ContactForm() {
       window.open(createWhatsAppLink(whatsappMessage), "_blank", "noopener,noreferrer");
       form.reset();
       setStatus("success");
+      return;
+    }
+
+    if (contactProvider === "formspree") {
+      if (!formspreeFormId) {
+        setStatus("error");
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://formspree.io/f/${encodeURIComponent(formspreeFormId)}`, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: formData,
+        });
+        if (!response.ok) throw new Error("No se pudo enviar el formulario");
+        form.reset();
+        setStatus("success");
+      } catch {
+        setStatus("error");
+      }
       return;
     }
 

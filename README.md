@@ -25,12 +25,13 @@ Copiá `.env.example` como `.env.local` y usá el número en formato internacion
 
 ```env
 NEXT_PUBLIC_WHATSAPP_NUMBER=5493518649121
-NEXT_PUBLIC_CONTACT_PROVIDER=whatsapp
+NEXT_PUBLIC_CONTACT_PROVIDER=formspree
+NEXT_PUBLIC_FORMSPREE_FORM_ID=xxxxxxxx
 ```
 
 Todos los enlaces se generan en `src/lib/whatsapp.ts`. Los mensajes de producto incluyen automáticamente marca y modelo.
 
-`NEXT_PUBLIC_CONTACT_PROVIDER=whatsapp` hace que el formulario prepare la consulta y abra WhatsApp, por lo que funciona en Firebase Hosting sin backend. Para usar Netlify Forms, cambiá el valor a `netlify`.
+`NEXT_PUBLIC_CONTACT_PROVIDER=formspree` envía el formulario por email usando Formspree. `NEXT_PUBLIC_FORMSPREE_FORM_ID` es el identificador público que aparece en el endpoint del formulario. También se puede usar `whatsapp` para preparar la consulta en WhatsApp o `netlify` para Netlify Forms.
 
 ## Cambiar la información de la óptica
 
@@ -131,7 +132,7 @@ npm run build
 firebase emulators:start --only hosting
 ```
 
-El formulario usa WhatsApp por defecto en Firebase y no requiere Functions, Firestore ni el plan Blaze.
+El formulario puede enviar email mediante Formspree y no requiere Functions, Firestore ni el plan Blaze.
 
 ### Deploy automático desde GitHub
 
@@ -144,6 +145,14 @@ FIREBASE_SERVICE_ACCOUNT_PUPILA_OPTICAL_CENTER
 ```
 
 Su valor debe ser el JSON completo de una cuenta de servicio con permiso para desplegar Firebase Hosting en el proyecto `pupila-optical-center`. No guardes ese JSON dentro del repositorio.
+
+Creá también una variable de repositorio en **GitHub → Settings → Secrets and variables → Actions → Variables**:
+
+```text
+NEXT_PUBLIC_FORMSPREE_FORM_ID
+```
+
+Su valor es únicamente el ID del formulario de Formspree, por ejemplo `xpwzgabc`, no el endpoint completo. En el panel de Formspree configurá `tobiasmoreno.tm.21@gmail.com` como destinatario y verificá esa dirección.
 
 ## Formulario y Netlify Forms
 

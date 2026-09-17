@@ -42,7 +42,8 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_WHATSAPP_NUMBER: "5493518649121"
-          NEXT_PUBLIC_CONTACT_PROVIDER: whatsapp
+          NEXT_PUBLIC_CONTACT_PROVIDER: formspree
+          NEXT_PUBLIC_FORMSPREE_FORM_ID: ${{ vars.NEXT_PUBLIC_FORMSPREE_FORM_ID }}
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0.11.0
