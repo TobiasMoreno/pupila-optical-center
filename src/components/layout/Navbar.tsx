@@ -12,7 +12,17 @@ import { Container } from "@/components/ui/Container";
 
 export function Navbar() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isLight = isHome && !scrolled && !open;
+
+  useEffect(() => {
+    const updateHeader = () => setScrolled(window.scrollY > 32);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -22,11 +32,25 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[color:var(--paper)]/92 backdrop-blur-xl">
+    <header
+      className={cn(
+        "top-0 z-50 w-full border-b transition-all duration-500",
+        isHome ? "fixed" : "sticky",
+        isLight
+          ? "border-white/15 bg-transparent text-white"
+          : "border-[var(--line)] bg-[color:var(--paper)]/92 text-[var(--ink)] shadow-[0_6px_30px_rgba(32,27,31,.045)] backdrop-blur-xl",
+      )}
+    >
       <Container className="flex h-[76px] items-center justify-between">
-        <Brand />
+        <Brand light={isLight} />
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegación principal">
+        <nav
+          className={cn(
+            "hidden items-center gap-1 rounded-full border px-2 py-1.5 backdrop-blur-md lg:flex",
+            isLight ? "border-white/20 bg-white/10" : "border-[var(--line)] bg-white/45",
+          )}
+          aria-label="Navegación principal"
+        >
           {siteConfig.navigation.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -34,8 +58,9 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative py-2 text-sm font-medium text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--plum)]",
-                  active && "text-[var(--ink)] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[var(--plum)]",
+                  "rounded-full px-3.5 py-2 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+                  isLight ? "text-white/75 hover:bg-white/15 hover:text-white focus-visible:outline-white" : "text-[var(--ink-soft)] hover:bg-white hover:text-[var(--ink)] focus-visible:outline-[var(--plum)]",
+                  active && (isLight ? "bg-white/15 text-white" : "bg-white text-[var(--ink)]"),
                 )}
               >
                 {item.label}
@@ -48,16 +73,22 @@ export function Navbar() {
           href={createWhatsAppLink("Hola, quisiera hacer una consulta.")}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden min-h-11 items-center gap-2 rounded-full bg-[var(--plum)] px-4 text-sm font-semibold text-white transition hover:bg-[var(--plum-deep)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--plum)] lg:flex"
+          className={cn(
+            "hidden min-h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:flex",
+            isLight ? "bg-white text-[var(--ink)] hover:bg-[var(--orange-soft)] focus-visible:outline-white" : "bg-[var(--plum)] text-white hover:bg-[var(--plum-deep)] focus-visible:outline-[var(--plum)]",
+          )}
         >
           <MessageCircle className="h-4 w-4" aria-hidden="true" />
-          Consultar por WhatsApp
+          Consultar
         </a>
 
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line)] text-[var(--ink)] transition hover:border-[var(--plum)] lg:hidden"
+          className={cn(
+            "flex h-11 w-11 items-center justify-center rounded-full border transition lg:hidden",
+            isLight ? "border-white/35 text-white hover:bg-white/10" : "border-[var(--line)] text-[var(--ink)] hover:border-[var(--plum)]",
+          )}
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
@@ -69,7 +100,7 @@ export function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-x-0 top-[77px] h-[calc(100dvh-77px)] origin-top bg-[var(--paper)] transition duration-300 lg:hidden",
+          "fixed inset-x-0 top-[77px] h-[calc(100dvh-77px)] origin-top bg-[var(--paper)] text-[var(--ink)] transition duration-300 lg:hidden",
           open ? "visible scale-y-100 opacity-100" : "invisible scale-y-95 opacity-0",
         )}
       >
