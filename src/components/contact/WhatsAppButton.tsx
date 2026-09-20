@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ export function WhatsAppButton({ message, label = "Hablar por WhatsApp", classNa
         className,
       )}
     >
-      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+      <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
       {label}
     </a>
   );

@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, MessageCircle, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { Brand } from "@/components/ui/Brand";
 import { Container } from "@/components/ui/Container";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -78,7 +79,7 @@ export function Navbar() {
             isLight ? "bg-white text-[var(--ink)] hover:bg-[var(--orange-soft)] focus-visible:outline-white" : "bg-[var(--plum)] text-white hover:bg-[var(--plum-deep)] focus-visible:outline-[var(--plum)]",
           )}
         >
-          <MessageCircle className="h-4 w-4" aria-hidden="true" />
+          <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
           Consultar
         </a>
 
@@ -124,7 +125,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="mt-auto flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--plum)] px-5 font-semibold text-white"
           >
-            <MessageCircle className="h-5 w-5" /> Consultar por WhatsApp
+            <WhatsAppIcon className="h-5 w-5" aria-hidden="true" /> Consultar por WhatsApp
           </a>
         </Container>
       </div>

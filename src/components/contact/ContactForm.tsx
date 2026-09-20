@@ -1,7 +1,8 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, LoaderCircle, Mail, MessageCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, LoaderCircle, Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { products } from "@/data/products";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 
@@ -107,7 +108,7 @@ export function ContactForm() {
             {status === "loading" && deliveryMethod === "email" ? "Enviando…" : "Enviar por email"}
           </button>
           <button name="channel" value="whatsapp" type="submit" disabled={status === "loading"} className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[#236b4b] px-5 text-sm font-semibold text-white transition hover:bg-[#18583c] disabled:opacity-60">
-            {status === "loading" && deliveryMethod === "whatsapp" ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <MessageCircle className="h-4 w-4" />}
+            {status === "loading" && deliveryMethod === "whatsapp" ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />}
             {status === "loading" && deliveryMethod === "whatsapp" ? "Preparando…" : "Enviar por WhatsApp"}
           </button>
         </div>

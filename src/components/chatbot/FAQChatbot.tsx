@@ -2,6 +2,7 @@
 
 import { Bot, ChevronLeft, MessageCircleQuestion, RotateCcw, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { faqs, type FAQ } from "@/data/faqs";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -73,6 +74,7 @@ export function FAQChatbot() {
                 <p>{item.text}</p>
                 {item.action && (
                   <a href={createWhatsAppLink(item.action.message)} target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] px-3 py-2 text-xs font-semibold text-[var(--ink)] transition hover:brightness-95">
+                    <WhatsAppIcon className="h-3.5 w-3.5" aria-hidden="true" />
                     {item.action.label}
                   </a>
                 )}

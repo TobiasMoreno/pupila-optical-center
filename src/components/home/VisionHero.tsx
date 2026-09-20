@@ -31,9 +31,7 @@ export function VisionHero() {
       <div className="vision-hero__image vision-hero__image--base" style={{ backgroundImage: heroImage }} />
       <div className="vision-hero__image vision-hero__image--focus" style={{ backgroundImage: heroImage }} />
       <div className="vision-hero__shade" />
-      <div className={`vision-hero__lens ${isExploring ? "is-visible" : ""}`} aria-hidden="true">
-        <span />
-      </div>
+      <div className={`vision-hero__lens ${isExploring ? "is-visible" : ""}`} aria-hidden="true" />
 
       <div className="vision-hero__headline">
         <p className="hero-kicker hero-entrance">Óptica boutique · Córdoba</p>
